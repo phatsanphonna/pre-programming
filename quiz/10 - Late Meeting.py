@@ -3,6 +3,8 @@ Quiz 10
 Late Meeting
 '''
 
+from datetime import datetime, timedelta
+
 
 def main():
     '''This is main function'''
@@ -15,24 +17,18 @@ def main():
     meeting_end_minutes = int(input())
     meeting_end_seconds = int(input())
 
-    converted_seconds = (hours * 60 * 60) + (minutes * 60) + seconds
-    converted_meeting_ends_seconds = (
-        meeting_end_minutes * 60) + meeting_end_seconds
+    start_time_data = '%d:%d:%d %s' % (hours, minutes, seconds, relation)
 
-    total_seconds = converted_seconds + converted_meeting_ends_seconds
+    start_time = datetime.strptime(start_time_data, '%I:%M:%S %p')
 
-    total_minutes, total_seconds = divmod(total_seconds, 60)
-    total_hours, total_minutes = divmod(total_minutes, 60)
+    finish_time = start_time + \
+        timedelta(minutes=meeting_end_minutes, seconds=meeting_end_seconds)
 
-    if total_hours > 11:
-        if relation == 'pm':
-            relation = 'am'
-        else:
-            relation = 'pm'
-    
-    print('%.2d:%.2d:%.2d %s' % (
-        total_hours, total_minutes, total_seconds, relation
-    ))
+    print(
+        datetime.strftime(
+            finish_time, '%I:%M:%S %p'
+        ).lower()
+    )
 
 
 main()
